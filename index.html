@@ -33,7 +33,7 @@
   --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
   --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --veil-a:rgba(5,5,5,.60); --veil-b:rgba(5,5,5,.80); --navactive:rgba(255,255,255,.16);
+  --veil-a:rgba(5,5,5,.60); --veil-b:rgba(5,5,5,.80); --navactive:rgba(255,255,255,.2);
   color-scheme:dark;
 }
 :root[data-theme="light"]{
@@ -61,7 +61,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .top{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;justify-content:center;padding:0 max(12px,env(safe-area-inset-left,0px)) 0 max(12px,env(safe-area-inset-right,0px));pointer-events:none}
 .nav{position:relative;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:auto;display:flex;gap:2px;padding:6px;width:min(100%,460px);
   border-radius:999px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);
-  background-color:color-mix(in srgb,var(--surface) 46%,transparent);
+  background-color:color-mix(in srgb,var(--surface) 50%,transparent);
   background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 50%,rgba(255,255,255,.04));
   -webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.28);
@@ -76,7 +76,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .thumb{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:0;border-radius:999px;pointer-events:none;
   background-color:var(--navactive);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);
   will-change:transform;transition:transform .38s cubic-bezier(.3,1.25,.5,1),background-color .18s,box-shadow .18s}
-.nav.dragging .thumb{transition:background-color .18s;background-color:color-mix(in srgb,var(--navactive) 140%,transparent)}
+.nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:color-mix(in srgb,var(--navactive) 75%,transparent);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),inset 0 -1px 1px rgba(255,255,255,.2),0 4px 14px rgba(0,0,0,.25)}
 /* low-power / Android: no backdrop blur, plain bar */
 html.lite .nav{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:color-mix(in srgb,var(--surface) 92%,transparent);background-image:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 14px rgba(0,0,0,.25)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.nav{background-color:color-mix(in srgb,var(--surface) 92%,transparent)}}
@@ -502,7 +503,7 @@ h1 i{cursor:pointer}
     var links = Array.prototype.slice.call(nav.querySelectorAll("a"));
     if (!nav.querySelector('a[aria-current="true"]')) links[0].setAttribute("aria-current", "true");
     function current() { return nav.querySelector('a[aria-current="true"]') || links[0]; }
-    var tw = 0, tx0 = 0, SC = " scale(1.1,1.22)";
+    var tw = 0, tx0 = 0, SC = " scale(1.06,1.1)";
     function place(a) {
       tw = a.offsetWidth; tx0 = a.offsetLeft;
       thumb.style.width = tw + "px";
@@ -531,7 +532,7 @@ h1 i{cursor:pointer}
     function frame() {
       raf = 0; if (!drag || !drag.on) return;
       var x = px - cache.left, tx = Math.max(cache.min, Math.min(cache.max, x - cache.w / 2));
-      thumb.style.transform = "translate3d(" + tx + "px,0,0)";
+      thumb.style.transform = "translate3d(" + tx + "px,0,0)" + SC;
       var bi = 0, bd = 1e9;
       for (var i = 0; i < cache.c.length; i++) { var d = Math.abs(cache.c[i] - x); if (d < bd) { bd = d; bi = i; } }
       var best = links[bi];
