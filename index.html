@@ -95,6 +95,19 @@ h2{font:700 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;mar
 .count{font:400 13px/1 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
 
 .entry{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:8px 28px;padding-block:22px;border-top:1px dashed var(--line)}
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.job{display:grid;grid-template-columns:18px minmax(0,1fr);gap:0 20px;padding-block:6px}
+.job .dot{width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);margin-top:6px}
+.jcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
+.jtop{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.jtop h3{margin:0}
+.jperiod{font:400 13px/1.4 var(--mono);color:var(--muted)}
+.jmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}
+.jrole{font:500 12.5px/1 var(--mono);padding:6px 10px;border-radius:6px;background:var(--accent);color:var(--accent-ink)}
+.jstudio{font:400 13px/1.4 var(--mono);color:var(--muted)}
+.jvisits{font:500 12.5px/1 var(--mono);padding:6px 10px;border:1px solid var(--line);border-radius:6px;color:var(--ink)}
+.jcard p{margin:0 0 12px;max-width:62ch}
+@media (max-width:560px){.job{grid-template-columns:14px minmax(0,1fr);gap:0 12px}.job .dot{width:14px;height:14px}.jcard{padding:16px}}
 .grp{margin-top:30px}
 .grp:first-of-type{margin-top:0}
 .grp-h{display:flex;align-items:center;gap:10px;margin:0 0 4px;font:600 14px/1 var(--mono);letter-spacing:.04em;color:var(--ink)}
@@ -376,6 +389,21 @@ h1 i{cursor:pointer}
       </div>
     </article>
     </div>
+  </section>
+
+  <section id="work">
+    <div class="sec-h"><h2>Work history</h2><span class="count">1 entry</span></div>
+    <ol class="tl">
+      <li class="job">
+        <span class="dot" aria-hidden="true"></span>
+        <article class="jcard">
+          <div class="jtop"><h3>TehJeruk Tower</h3><span class="jperiod">May 25, 2025 – Aug 2025</span></div>
+          <div class="jmeta"><span class="jrole">Builder</span><span class="jstudio">@ vizco</span><span class="jvisits">1.6M+ visits</span></div>
+          <p>I worked as a builder on a tower game where players stack tall, sturdy towers of iced tea and iced orange while facing obstacles.</p>
+          <p class="visit"><a href="https://www.roblox.com/share?code=d1d5de5a5ce4664aa70e8735b4118131&amp;type=ExperienceDetails&amp;stamp=1793535586807" target="_blank" rel="noopener">Play on Roblox ↗</a></p>
+        </article>
+      </li>
+    </ol>
   </section>
 
   <section id="github">
