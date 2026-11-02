@@ -7,7 +7,8 @@
 <meta name="description" content="Portfolio of rex-bit: Roblox games and web tools.">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("rb-mode")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
 <meta name="theme-color" content="#050505">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='10' y='44' font-family='monospace' font-size='34' font-weight='700' fill='%23EDEDF0'%3Er%3C/text%3E%3Ccircle cx='46' cy='41' r='5' fill='%23FF7A3D'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -32,7 +33,15 @@
   --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
   --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --veil-a:rgba(5,5,5,.60); --veil-b:rgba(5,5,5,.80);
   color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#F4F5F8; --surface:#FFFFFF; --ink:#12141C; --muted:#5A6070; --line:#D9DCE6;
+  --l0:#E6E8EF; --l1:#FFD9C2; --l2:#FFB07F; --l3:#F07A3A; --l4:#C2410C;
+  --accent:#D9480F; --accent-ink:#FFFFFF; --busy:#D92D20; --ok:#13795B; --warn:#8F6200;
+  --veil-a:rgba(244,245,248,.84); --veil-b:rgba(244,245,248,.94);
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 html{background:var(--bg)}
@@ -51,7 +60,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:14px;
   padding:14px 0 10px;font:500 13px/1.4 var(--mono);color:var(--muted)}
 .top::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);
-  background:rgba(5,5,5,.84);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  background:color-mix(in srgb,var(--bg) 84%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 @media (max-width:560px){
   .top{gap:10px}
   .nav{gap:11px}
@@ -132,6 +141,14 @@ h2{font:700 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;mar
 .body{min-width:0}
 h3{font:700 clamp(24px,4vw,30px)/1.15 var(--display);letter-spacing:-.02em;margin:0 0 8px}
 .body p{margin:0 0 12px;max-width:62ch}
+.modebtn{position:fixed;z-index:25;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;
+  left:max(16px,env(safe-area-inset-left,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.modebtn svg{width:20px;height:20px}
+.modebtn .i-sun{display:none}
+:root[data-theme="light"] .modebtn .i-moon{display:none}
+:root[data-theme="light"] .modebtn .i-sun{display:block}
+.modebtn:hover{border-color:var(--accent)}
+.stat b{font-variant-numeric:tabular-nums}
 .totop{position:fixed;z-index:25;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;
   right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));box-shadow:0 6px 18px rgba(0,0,0,.5)}
 .totop svg{width:20px;height:20px}
@@ -174,7 +191,7 @@ h3{font:700 clamp(24px,4vw,30px)/1.15 var(--display);letter-spacing:-.02em;margi
 .gcells i,.glegend i{display:block;width:12px;height:12px;border-radius:3px;background:var(--l0)}
 i[data-l="1"]{background:var(--l1)}i[data-l="2"]{background:var(--l2)}i[data-l="3"]{background:var(--l3)}i[data-l="4"]{background:var(--l4)}
 .gcells i:hover{outline:1px solid var(--ink);outline-offset:1px}
-.tip{position:fixed;z-index:30;left:0;top:0;pointer-events:none;white-space:nowrap;padding:7px 10px;border-radius:6px;background:#26262d;border:1px solid #3b3b46;color:var(--ink);font:500 12.5px/1.3 var(--body);box-shadow:0 6px 18px rgba(0,0,0,.6)}
+.tip{position:fixed;z-index:30;left:0;top:0;pointer-events:none;white-space:nowrap;padding:7px 10px;border-radius:6px;background:#26262d;border:1px solid #3b3b46;color:#EDEDF0;font:500 12.5px/1.3 var(--body);box-shadow:0 6px 18px rgba(0,0,0,.6)}
 .tip::after{content:"";position:absolute;left:var(--ax,50%);width:8px;height:8px;background:#26262d;border:1px solid #3b3b46;border-top:0;border-left:0;transform:translateX(-50%) rotate(45deg);bottom:-5px}
 .tip[data-below]::after{bottom:auto;top:-5px;transform:translateX(-50%) rotate(225deg)}
 .glegend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:6px;font:400 11px/1 var(--mono);color:var(--muted)}
@@ -222,7 +239,7 @@ h1 i{cursor:pointer}
 @media (min-width:900px){
   body{background:transparent}
   body::before{content:"";position:fixed;inset:-48px;z-index:-1;pointer-events:none;
-    background:linear-gradient(rgba(5,5,5,.60),rgba(5,5,5,.80)),url(assets/bg.jpg) center/cover no-repeat;
+    background:linear-gradient(var(--veil-a),var(--veil-b)),url(assets/bg.jpg) center/cover no-repeat;
     filter:blur(16px)}
 }
 @media (max-width:560px){
@@ -453,6 +470,10 @@ h1 i{cursor:pointer}
 
   <div class="foot"><span>© 2026 rex-bit</span><button type="button" class="copy small" id="sharebtn">Copy link</button></div>
 </div>
+<button type="button" class="modebtn" id="modebtn" aria-label="Switch to light mode" aria-pressed="false">
+  <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 8.5 8.5 0 1020 14.5z" fill="currentColor"/></svg>
+  <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
 <button type="button" class="totop" id="totop" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <div class="tip" id="gh-tip" role="tooltip" hidden></div>
 
@@ -566,7 +587,7 @@ h1 i{cursor:pointer}
     root.setProperty("--l2", "hsl(" + h + " " + Math.round(S * .75) + "% 33%)");
     root.setProperty("--l3", hsl(50));
     root.setProperty("--l4", "hsl(" + h + " " + S + "% 76%)");
-    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", "#050505");
+    
   }
   function hexToHs(hex) {
     var r = parseInt(hex.slice(1, 3), 16) / 255, g = parseInt(hex.slice(3, 5), 16) / 255, b = parseInt(hex.slice(5, 7), 16) / 255;
@@ -594,7 +615,7 @@ h1 i{cursor:pointer}
     return best ? { h: Math.round(best.h / best.w), s: Math.round(best.s / best.w * 100) } : null;
   }
   if (ACCENT_OVERRIDE) {
-    var o = hexToHs(ACCENT_OVERRIDE); setTheme(o.h, o.s);
+    /* the CSS tokens already hold this color for both themes */
   } else {
     try {
       var cached = JSON.parse(localStorage.getItem("rb-theme") || "null");
@@ -629,6 +650,46 @@ h1 i{cursor:pointer}
         im.onload = function () { box.textContent = ""; box.appendChild(im); };
         im.src = d.imageUrl;
       }).catch(function () {});
+  })();
+
+  /* light / dark switch, remembered on this device */
+  var modeBtn = $("modebtn"), rootEl = document.documentElement;
+  function syncMode() {
+    var light = rootEl.getAttribute("data-theme") === "light";
+    modeBtn.setAttribute("aria-pressed", String(light));
+    modeBtn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", light ? "#F4F5F8" : "#050505");
+  }
+  modeBtn.addEventListener("click", function () {
+    var light = rootEl.getAttribute("data-theme") === "light";
+    if (light) rootEl.removeAttribute("data-theme"); else rootEl.setAttribute("data-theme", "light");
+    try { localStorage.setItem("rb-mode", light ? "dark" : "light"); } catch (e) {}
+    syncMode();
+  });
+  syncMode();
+
+  /* count-up numbers in the About cards */
+  (function () {
+    var els = document.querySelectorAll("#about .stat b");
+    if (!els.length || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function run(el) {
+      var m = /^(\d+(?:\.\d+)?)(.*)$/.exec(el.textContent.trim());
+      if (!m) return;
+      var end = parseFloat(m[1]), dec = (m[1].split(".")[1] || "").length, suf = m[2], t0 = null, dur = 1100;
+      el.style.minWidth = el.offsetWidth + "px";
+      function step(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        el.textContent = (end * e).toFixed(dec) + suf;
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    var io2 = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { io2.unobserve(e.target); run(e.target); } });
+    }, { threshold: .6 });
+    els.forEach(function (el) { io2.observe(el); });
   })();
 
   /* copy buttons */
