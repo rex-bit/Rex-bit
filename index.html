@@ -100,6 +100,10 @@ h2{font:700 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;mar
 .job .dot{width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);margin-top:6px}
 .jcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
 .jtop{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.jhead{display:flex;align-items:center;gap:12px;min-width:0}
+.jhead h3{margin:0}
+.jicon{flex:none;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;overflow:hidden;background:var(--accent);color:var(--accent-ink);font:800 16px/1 var(--display);letter-spacing:-.02em}
+.jicon img{display:block;width:100%;height:100%;object-fit:cover}
 .jtop h3{margin:0}
 .jperiod{font:400 13px/1.4 var(--mono);color:var(--muted)}
 .jmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}
@@ -397,9 +401,10 @@ h1 i{cursor:pointer}
       <li class="job">
         <span class="dot" aria-hidden="true"></span>
         <article class="jcard">
-          <div class="jtop"><h3>TehJeruk Tower</h3><span class="jperiod">May 25, 2025 – Aug 2025</span></div>
+          <div class="jtop"><div class="jhead"><span class="jicon" id="tj-icon" aria-hidden="true">TJ</span><h3>TehJeruk Tower</h3></div><span class="jperiod">May 25, 2025 – Aug 2025</span></div>
           <div class="jmeta"><span class="jrole">Builder</span><span class="jstudio">@ vizco</span><span class="jvisits">1.6M+ visits</span></div>
           <p>I worked as a builder on a tower game where players stack tall, sturdy towers of iced tea and iced orange while facing obstacles.</p>
+          <div class="shots"><img src="https://tr.rbxcdn.com/180DAY-f7dfec675d69f7cbc043853d03276535/500/280/Image/Jpeg/noFilter" alt="TehJeruk Tower thumbnail" width="500" height="280" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.shots').remove()"></div>
           <p class="visit"><a href="https://www.roblox.com/share?code=d1d5de5a5ce4664aa70e8735b4118131&amp;type=ExperienceDetails&amp;stamp=1793535586807" target="_blank" rel="noopener">Play on Roblox ↗</a></p>
         </article>
       </li>
@@ -625,6 +630,22 @@ h1 i{cursor:pointer}
     };
     av.src = "https://github.com/" + USER + ".png?size=96";
   }
+
+  /* Work history icon: game icon through a public Roblox proxy, falls back to the TJ tile */
+  (function () {
+    var box = $("tj-icon");
+    if (!box) return;
+    fetch("https://thumbnails.roproxy.com/v1/places/gameicons?placeIds=132606523770087&returnPolicy=PlaceHolder&size=256x256&format=Png&isCircular=false")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (j) {
+        var d = j.data && j.data[0];
+        if (!d || d.state !== "Completed" || !d.imageUrl) throw 0;
+        var im = new Image();
+        im.alt = ""; im.referrerPolicy = "no-referrer";
+        im.onload = function () { box.textContent = ""; box.appendChild(im); };
+        im.src = d.imageUrl;
+      }).catch(function () {});
+  })();
 
   /* copy buttons */
   Array.prototype.forEach.call(document.querySelectorAll("button.copy"), function (btn) {
