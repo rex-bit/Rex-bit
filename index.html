@@ -33,7 +33,7 @@
   --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
   --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --veil-a:rgba(5,5,5,.60); --veil-b:rgba(5,5,5,.80); --navactive:rgba(0,0,0,.34);
+  --veil-a:rgba(5,5,5,.60); --veil-b:rgba(5,5,5,.80); --navactive:rgba(255,255,255,.16);
   color-scheme:dark;
 }
 :root[data-theme="light"]{
@@ -76,9 +76,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .thumb{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:0;border-radius:999px;pointer-events:none;
   background-color:var(--navactive);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);
   will-change:transform;transition:transform .38s cubic-bezier(.3,1.25,.5,1),background-color .18s,box-shadow .18s}
-.nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;
-  background-color:rgba(255,255,255,.1);background-image:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.04) 50%,rgba(255,255,255,.14));
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.25),inset 2px 0 2px -1px rgba(120,170,255,.45),inset -2px 0 2px -1px rgba(255,140,90,.45),0 6px 18px rgba(0,0,0,.3)}
+.nav.dragging .thumb{transition:background-color .18s;background-color:color-mix(in srgb,var(--navactive) 140%,transparent)}
+/* low-power / Android: no backdrop blur, plain bar */
+html.lite .nav{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:color-mix(in srgb,var(--surface) 92%,transparent);background-image:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 14px rgba(0,0,0,.25)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.nav{background-color:color-mix(in srgb,var(--surface) 92%,transparent)}}
 @media (prefers-reduced-motion:reduce){.thumb,.nav.dragging .thumb{transition:none}}
 .nav a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 @media (max-width:420px){.nav a{min-width:0;padding:8px 7px 7px;font-size:10.5px}.nav a svg{width:21px;height:21px}}
@@ -486,6 +487,10 @@ h1 i{cursor:pointer}
   var $ = function (id) { return document.getElementById(id); };
 
 
+  (function () {
+    var ua = navigator.userAgent || "", low = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+    if (/Android/i.test(ua) || low) document.documentElement.classList.add("lite");
+  })();
   /* tab bar: sliding highlight you can also drag, like iOS 26 */
   (function () {
     var nav = document.querySelector(".nav");
@@ -526,7 +531,7 @@ h1 i{cursor:pointer}
     function frame() {
       raf = 0; if (!drag || !drag.on) return;
       var x = px - cache.left, tx = Math.max(cache.min, Math.min(cache.max, x - cache.w / 2));
-      thumb.style.transform = "translate3d(" + tx + "px,0,0)" + SC;
+      thumb.style.transform = "translate3d(" + tx + "px,0,0)";
       var bi = 0, bd = 1e9;
       for (var i = 0; i < cache.c.length; i++) { var d = Math.abs(cache.c[i] - x); if (d < bd) { bd = d; bi = i; } }
       var best = links[bi];
