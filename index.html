@@ -155,17 +155,16 @@ h2{font:700 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;mar
 .body{min-width:0}
 h3{font:700 clamp(24px,4vw,30px)/1.15 var(--display);letter-spacing:-.02em;margin:0 0 8px}
 .body p{margin:0 0 12px;max-width:62ch}
-.modebtn{position:fixed;z-index:25;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;
-  left:max(16px,env(safe-area-inset-left,0px));bottom:calc(92px + env(safe-area-inset-bottom,0px));box-shadow:0 6px 18px rgba(0,0,0,.35)}
-.modebtn svg{width:20px;height:20px}
+.modebtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.modebtn svg{width:18px;height:18px}
 .modebtn .i-sun{display:none}
 :root[data-theme="light"] .modebtn .i-moon{display:none}
 :root[data-theme="light"] .modebtn .i-sun{display:block}
 .modebtn:hover{border-color:var(--accent)}
 .stat b{font-variant-numeric:tabular-nums}
-.totop{position:fixed;z-index:25;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;
-  right:max(16px,env(safe-area-inset-right,0px));bottom:calc(92px + env(safe-area-inset-bottom,0px));box-shadow:0 6px 18px rgba(0,0,0,.5)}
-.totop svg{width:20px;height:20px}
+.totop{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.tools{display:flex;align-items:center;gap:8px}
+.totop svg{width:18px;height:18px}
 .totop:hover{border-color:var(--accent)}
 .listen{margin-top:26px;max-width:560px}
 .listen .now{margin:0 0 10px}
@@ -479,13 +478,11 @@ h1 i{cursor:pointer}
     </ul>
   </section>
 
-  <div class="foot"><span>© 2026 rex-bit</span><button type="button" class="copy small" id="sharebtn">Copy link</button></div>
-</div>
-<button type="button" class="modebtn" id="modebtn" aria-label="Switch to light mode" aria-pressed="false">
+  <div class="foot"><span>© 2026 rex-bit</span><span class="tools"><button type="button" class="modebtn" id="modebtn" aria-label="Switch to light mode" aria-pressed="false">
   <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 8.5 8.5 0 1020 14.5z" fill="currentColor"/></svg>
   <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-</button>
-<button type="button" class="totop" id="totop" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</button><button type="button" class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="copy small" id="sharebtn">Copy link</button></span></div>
+</div>
 <div class="tip" id="gh-tip" role="tooltip" hidden></div>
 
 <script>
@@ -608,7 +605,7 @@ h1 i{cursor:pointer}
 
   /* back to top */
   var totop = $("totop");
-  function toggleTop() { totop.hidden = window.scrollY < 700; }
+  function toggleTop() {}
   window.addEventListener("scroll", toggleTop, { passive: true });
   totop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
   toggleTop();
