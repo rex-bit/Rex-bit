@@ -589,7 +589,7 @@ h1 i{cursor:pointer}
     nav.addEventListener("click", function (e) {
       if (suppress) { e.preventDefault(); e.stopPropagation(); return; }
       var a = e.target.closest("a");
-      if (a) setCurrent(a);
+      if (a) { quiet = Date.now() + 1200; setCurrent(a); }
     }, true);
   })();
 
