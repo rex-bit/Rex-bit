@@ -76,13 +76,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .thumb{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:0;border-radius:999px;pointer-events:none;
   background-color:var(--navactive);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);
   will-change:transform;transition:transform .32s cubic-bezier(.25,.85,.3,1),background-color .18s,box-shadow .18s}
-.nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:color-mix(in srgb,var(--navactive) 75%,transparent);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),inset 0 -1px 1px rgba(255,255,255,.2),0 4px 14px rgba(0,0,0,.25)}
+.nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:rgba(255,255,255,.12);background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.03) 55%,rgba(255,255,255,.12));
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.25),inset 2px 0 3px -1px rgba(120,170,255,.4),inset -2px 0 3px -1px rgba(255,140,90,.4),0 6px 18px rgba(0,0,0,.28)}
 /* scrolled down: transform-only swap bar <-> pill (no layout, no clip-path, so it stays on the GPU) */
 .nav{transform-origin:50% 100%;will-change:transform,opacity;transition:transform .28s cubic-bezier(.215,.61,.355,1),opacity .22s ease-out}
 .nav.min{opacity:0;transform:scale(.7,.85) translateZ(0);pointer-events:none}
 .nav a{transition:color .18s}
-.thumb{transition:transform .32s cubic-bezier(.25,.85,.3,1),background-color .18s,box-shadow .18s}
+.thumb{transition:background-color .18s,box-shadow .18s,opacity .22s;will-change:transform}
 .mini{position:absolute;left:50%;bottom:0;display:flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 16px;color:var(--accent);font:600 13px/1 var(--body);cursor:pointer;pointer-events:none;opacity:0;white-space:nowrap;-webkit-tap-highlight-color:transparent;will-change:transform,opacity;
   transform:translateX(-50%) scale(1.35,1.1);transform-origin:50% 100%;border-radius:999px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);background-color:color-mix(in srgb,var(--surface) 50%,transparent);background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 50%,rgba(255,255,255,.04));-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.25);transition:transform .28s cubic-bezier(.215,.61,.355,1),opacity .18s ease-out}
 .mini.on{opacity:1;pointer-events:auto;transform:translateX(-50%) scale(1);transition:transform .28s cubic-bezier(.215,.61,.355,1),opacity .22s ease-out}
@@ -525,14 +525,29 @@ h1 i{cursor:pointer}
     var links = Array.prototype.slice.call(nav.querySelectorAll("a"));
     if (!nav.querySelector('a[aria-current="true"]')) links[0].setAttribute("aria-current", "true");
     function current() { return nav.querySelector('a[aria-current="true"]') || links[0]; }
-    var tw = 0, tx0 = 0, SC = " scale(1.06,1.1)";
-    function place(a) {
-      tw = a.offsetWidth; tx0 = a.offsetLeft;
-      thumb.style.width = tw + "px";
-      thumb.style.transform = "translate3d(" + tx0 + "px,0,0)";
+    /* spring-driven lens (ported from the idea behind liquid_glass_nav_bar: spring to tab, stretch with drag speed, rubber-band ends) */
+    var S = { x: 0, v: 0, sx: 1, vsx: 0, sy: 1, vsy: 0, tx: 0, tsx: 1, tsy: 1 }, loop = 0, last = 0, first = true;
+    function stepSpring(k, z, cur, vel, tgt, dt) { var c = 2 * z * Math.sqrt(k), acc = -k * (cur - tgt) - c * vel; vel += acc * dt; return [cur + vel * dt, vel]; }
+    function render() { thumb.style.transform = "translate3d(" + S.x.toFixed(2) + "px,0,0) scale(" + S.sx.toFixed(4) + "," + S.sy.toFixed(4) + ")"; }
+    function tick2(t) {
+      var dt = Math.min(.032, (t - last) / 1000 || .016); last = t;
+      var r = stepSpring(380, .77, S.x, S.v, S.tx, dt); S.x = r[0]; S.v = r[1];
+      r = stepSpring(320, .6, S.sx, S.vsx, S.tsx, dt); S.sx = r[0]; S.vsx = r[1];
+      r = stepSpring(320, .6, S.sy, S.vsy, S.tsy, dt); S.sy = r[0]; S.vsy = r[1];
+      render();
+      var done = Math.abs(S.x - S.tx) < .1 && Math.abs(S.v) < .5 && Math.abs(S.sx - S.tsx) < .002 && Math.abs(S.vsx) < .02 && Math.abs(S.sy - S.tsy) < .002 && Math.abs(S.vsy) < .02;
+      if (done && !(drag && drag.on)) { S.x = S.tx; S.sx = S.tsx; S.sy = S.tsy; render(); loop = 0; } else loop = requestAnimationFrame(tick2);
     }
-    window.__navPlace = function () { if (!nav.classList.contains("dragging")) place(current()); if (nav.classList.contains("min")) clipTo(); };
-    function setCurrent(a) { links.forEach(function (l) { l.setAttribute("aria-current", String(l === a)); }); place(a); }
+    function kick() { if (reduce) { S.x = S.tx; S.sx = S.tsx; S.sy = S.tsy; render(); return; } if (!loop) { last = performance.now(); loop = requestAnimationFrame(tick2); } }
+    function place(a, pop) {
+      thumb.style.width = a.offsetWidth + "px";
+      S.tx = a.offsetLeft; S.tsx = 1; S.tsy = 1;
+      if (first) { first = false; S.x = S.tx; render(); return; }
+      if (pop) S.sx = 1.1;
+      kick();
+    }
+    window.__navPlace = function () { if (!nav.classList.contains("dragging")) place(current(), false); if (nav.classList.contains("min")) clipTo(); };
+    function setCurrent(a) { links.forEach(function (l) { l.setAttribute("aria-current", String(l === a)); }); place(a, true); }
     function go(a) {
       quiet = Date.now() + 1000; setMin(false); setCurrent(a);
       var t = document.querySelector(a.getAttribute("href"));
@@ -565,25 +580,27 @@ h1 i{cursor:pointer}
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(window.__navPlace);
     window.__navPlace();
 
-    var drag = null, hot = null, suppress = false, raf = 0, px = 0, cache = null;
+    var drag = null, hot = null, suppress = false, px = 0, lastPx = 0, lastT = 0, vx = 0, cache = null;
     function measure() {
       var r = nav.getBoundingClientRect();
       cache = { left: r.left, w: thumb.offsetWidth, min: links[0].offsetLeft,
         max: links[links.length - 1].offsetLeft + links[links.length - 1].offsetWidth - thumb.offsetWidth,
         c: links.map(function (a) { return a.offsetLeft + a.offsetWidth / 2; }) };
     }
-    function frame() {
-      raf = 0; if (!drag || !drag.on) return;
-      var x = px - cache.left, tx = Math.max(cache.min, Math.min(cache.max, x - cache.w / 2));
-      thumb.style.transform = "translate3d(" + tx + "px,0,0)" + SC;
+    function rb(d) { return Math.min(d * .35, cache.w / 5); }
+    function dragTick() {
+      var x = px - cache.left, tx = x - cache.w / 2;
+      if (tx < cache.min) tx = cache.min - rb(cache.min - tx); else if (tx > cache.max) tx = cache.max + rb(tx - cache.max);
+      S.tx = tx; S.tsx = 1.18 + Math.min(.22, Math.abs(vx) / 3500); S.tsy = 1.14;
       var bi = 0, bd = 1e9;
       for (var i = 0; i < cache.c.length; i++) { var d = Math.abs(cache.c[i] - x); if (d < bd) { bd = d; bi = i; } }
       var best = links[bi];
       if (best !== hot) { if (hot) hot.removeAttribute("data-hot"); hot = best; hot.setAttribute("data-hot", ""); }
+      kick();
     }
     nav.addEventListener("pointerdown", function (e) {
       if (e.button > 0) return;
-      drag = { id: e.pointerId, x0: e.clientX, on: false }; measure();
+      drag = { id: e.pointerId, x0: e.clientX, on: false }; measure(); lastT = 0; vx = 0; lastPx = e.clientX;
     });
     nav.addEventListener("pointermove", function (e) {
       if (!drag || e.pointerId !== drag.id) return;
@@ -592,13 +609,14 @@ h1 i{cursor:pointer}
         drag.on = true; nav.classList.add("dragging");
         try { nav.setPointerCapture(e.pointerId); } catch (err) {}
       }
-      px = e.clientX; if (!raf) raf = requestAnimationFrame(frame);
+      var now = performance.now(); if (lastT) vx = vx * .6 + ((e.clientX - lastPx) / Math.max(1, now - lastT) * 1000) * .4; lastPx = e.clientX; lastT = now;
+      px = e.clientX; dragTick();
     });
     function end(e) {
       if (!drag || e.pointerId !== drag.id) return;
       var wasDrag = drag.on; drag = null;
       if (!wasDrag) return;
-      nav.classList.remove("dragging"); if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      nav.classList.remove("dragging");
       suppress = true; setTimeout(function () { suppress = false; }, 80);
       if (hot) { var a = hot; hot.removeAttribute("data-hot"); hot = null; go(a); }
     }
