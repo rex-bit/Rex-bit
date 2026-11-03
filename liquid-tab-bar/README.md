@@ -1,4 +1,6 @@
-# Liquid tab bar
+# Liquid tab bar `BETA`
+
+> ⚠️ **Beta.** This is an early version and still changing. The web version works but may still have rough edges; the Flutter version has not been compiled or run yet. Expect bugs and breaking changes.
 
 A floating glass tab bar in the style of iOS 26, in two flavours that share the same behaviour:
 

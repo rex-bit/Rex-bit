@@ -1,4 +1,4 @@
-// Liquid tab bar for Flutter (iOS, Android and web). MIT.
+// Liquid tab bar for Flutter (iOS, Android and web). BETA, not yet compiled. MIT.
 //
 // Pure Flutter: BackdropFilter blur + a spring-driven lens. It imitates the iOS 26
 // look; it is NOT the native UIKit control (for that see adaptive_platform_ui).

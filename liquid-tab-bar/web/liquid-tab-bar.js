@@ -1,4 +1,4 @@
-/*! Liquid tab bar (web). Spring lens, drag with stretch + rubber-band, shrinks to a pill on scroll. MIT */
+/*! Liquid tab bar (web, BETA). Spring lens, drag with stretch + rubber-band, shrinks to a pill on scroll. MIT */
 (function (global) {
   "use strict";
   function spring(k, z, cur, vel, tgt, dt) { var c = 2 * z * Math.sqrt(k), a = -k * (cur - tgt) - c * vel; vel += a * dt; return [cur + vel * dt, vel]; }
