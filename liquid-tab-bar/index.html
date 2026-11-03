@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Liquid tab bar</title>
+<meta name="description" content="A floating glass tab bar for the web and Flutter, with a spring lens, drag-to-scrub and shrink-on-scroll. Beta.">
+<link rel="stylesheet" href="web/liquid-tab-bar.css">
+<style>
+:root{--bg:#0b0b0d;--surface:#141417;--ink:#ececf0;--muted:#9a9aa6;--line:#26262c;--accent:#ff7a3d}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif;padding:0 max(18px,env(safe-area-inset-left)) 150px;-webkit-text-size-adjust:100%}
+.wrap{max-width:860px;margin:0 auto}
+a{color:var(--accent);text-underline-offset:3px}
+code,pre{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+header{padding:72px 0 40px}
+.badge{display:inline-block;font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:6px 9px;border-radius:999px;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);color:var(--accent);vertical-align:middle;margin-left:10px}
+h1{font-size:clamp(40px,10vw,76px);line-height:1;letter-spacing:-.04em;margin:0 0 20px}
+.lead{font-size:clamp(18px,3.4vw,22px);color:var(--muted);max-width:34em;margin:0 0 26px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;text-decoration:none}
+.btn.p{background:var(--accent);border-color:var(--accent);color:#1a0d05}
+section{padding:44px 0 8px;border-top:1px solid var(--line);scroll-margin-top:12px}
+h2{font:700 13px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.card b{display:block;margin-bottom:6px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+pre{margin:0 0 16px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow-x:auto;font-size:13px;line-height:1.6;-webkit-overflow-scrolling:touch}
+.hint{display:flex;gap:12px;align-items:flex-start;padding:16px;border:1px dashed color-mix(in srgb,var(--accent) 50%,transparent);border-radius:14px;color:var(--muted)}
+.hint svg{flex:none;width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td,th{text-align:left;padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.spacer{height:46vh}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+/* this page is dark-only, so keep the bar dark even on light-mode phones */
+.ltb{--ltb-ink:#fff;--ltb-bg:rgba(24,24,26,.5);--ltb-lens:rgba(255,255,255,.2);border-color:rgba(255,255,255,.14)}
+.ltb-mini{background-color:rgba(24,24,26,.5);border-color:rgba(255,255,255,.14)}
+@media (max-width:560px){header{padding-top:48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header id="top">
+    <h1>Liquid tab bar<span class="badge">BETA</span></h1>
+    <p class="lead">A floating glass tab bar for the web and Flutter. It has a spring lens you can drag, and it shrinks into a small pill when you scroll.</p>
+    <div class="cta">
+      <a class="btn p" href="https://github.com/rex-bit/Rex-bit/tree/main/liquid-tab-bar" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="btn" href="#try">Try it ↓</a>
+    </div>
+  </header>
+
+  <section id="try">
+    <h2>Try it</h2>
+    <div class="hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5a2 2 0 014 0v5l5 1a2 2 0 011.6 2.3L19 19a3 3 0 01-3 2.5H11a3 3 0 01-2.4-1.2L5 15.5a1.8 1.8 0 012.7-2.3L9 14.5"/></svg>
+      <span>The bar at the bottom of this page is the real component. <b style="color:var(--ink)">Drag</b> across it to move the lens, <b style="color:var(--ink)">scroll down</b> to shrink it into a pill, scroll up or tap the pill to bring it back.</span></div>
+  </section>
+
+  <section id="features">
+    <h2>What it does</h2>
+    <div class="grid">
+      <div class="card"><b>Spring lens</b><p>The highlight springs to the tapped tab with a small pop, like the iOS 26 tab bar.</p></div>
+      <div class="card"><b>Drag the lens</b><p>It lifts out of the bar, stretches with your speed, and rubber-bands at the ends.</p></div>
+      <div class="card"><b>Scroll to shrink</b><p>After 66 px of scroll the bar fades into a pill showing the current tab.</p></div>
+      <div class="card"><b>Light on phones</b><p>Only transform and opacity are animated, and the loop stops when everything is at rest.</p></div>
+    </div>
+    <div class="spacer"></div>
+  </section>
+
+  <section id="web">
+    <h2>Use it on the web</h2>
+    <pre><code>&lt;link rel="stylesheet" href="liquid-tab-bar.css"&gt;
+
+&lt;div class="ltb-wrap"&gt;
+  &lt;nav class="ltb"&gt;
+    &lt;a href="#home"&gt;&lt;svg …/&gt;&lt;span&gt;Home&lt;/span&gt;&lt;/a&gt;
+    &lt;a href="#me"&gt;&lt;svg …/&gt;&lt;span&gt;Me&lt;/span&gt;&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;script src="liquid-tab-bar.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  new LiquidTabBar(document.querySelector(".ltb"), {
+    onChange: (index, link) =&gt; console.log(index)
+  });
+&lt;/script&gt;</code></pre>
+    <p style="color:var(--muted)">No dependencies. Colours are CSS variables: <code>--ltb-accent</code>, <code>--ltb-ink</code>, <code>--ltb-bg</code>, <code>--ltb-lens</code>.</p>
+    <div class="spacer"></div>
+  </section>
+
+  <section id="flutter">
+    <h2>Use it in Flutter</h2>
+    <pre><code>final bar = LiquidTabBarController();
+
+NotificationListener&lt;ScrollNotification&gt;(
+  onNotification: bar.handleScroll,
+  child: ListView(…),
+);
+
+LiquidTabBar(
+  controller: bar,
+  selectedIndex: tab,
+  onChanged: (i) =&gt; setState(() =&gt; tab = i),
+  items: const [
+    LiquidTabItem(icon: Icons.home_rounded, label: 'Home'),
+    LiquidTabItem(icon: Icons.person_rounded, label: 'Me'),
+  ],
+);</code></pre>
+    <p style="color:var(--muted)">Works on iOS, Android and Flutter web.</p>
+
+    <h2 style="margin-top:34px">Status and limits</h2>
+    <table>
+      <tr><th>Web version</th><td>Beta. Tested in a browser; may still have rough edges.</td></tr>
+      <tr><th>Flutter version</th><td>Beta. Written without a Flutter SDK, <b>not compiled or run yet</b>.</td></tr>
+      <tr><th>Look</th><td>An imitation of the iOS 26 style, not Apple's real Liquid Glass. For the native control use <a href="https://github.com/berkaycatak/adaptive_platform_ui" target="_blank" rel="noopener">adaptive_platform_ui</a>.</td></tr>
+      <tr><th>Performance</th><td>Backdrop blur is heavy on low-end Android; use a solid translucent colour there.</td></tr>
+    </table>
+    <footer>MIT license · made by <a href="https://github.com/rex-bit" target="_blank" rel="noopener">rex-bit</a> · <a href="../">portfolio</a></footer>
+  </section>
+</div>
+
+<div class="ltb-wrap"><nav class="ltb" aria-label="Sections">
+  <a href="#top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></a>
+  <a href="#features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5.2 13.6h5.6L10 21l8.8-11h-5.5z"/></svg><span>Features</span></a>
+  <a href="#web"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 8L4.5 12l4 4M15.5 8l4 4-4 4M13.4 6l-2.8 12"/></svg><span>Web</span></a>
+  <a href="#flutter"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.6"/><path d="M10.5 18h3"/></svg><span>Flutter</span></a>
+</nav></div>
+<script src="web/liquid-tab-bar.js"></script>
+<script>
+(function () {
+  var bar = new LiquidTabBar(document.querySelector(".ltb"), {});
+  var links = [].slice.call(document.querySelectorAll(".ltb a")), ids = ["top", "features", "web", "flutter"];
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) bar.select(ids.indexOf(e.target.id)); }); }, { rootMargin: "-35% 0px -60% 0px" });
+    ids.forEach(function (id) { io.observe(document.getElementById(id)); });
+  }
+})();
+</script>
+</body>
+</html>
