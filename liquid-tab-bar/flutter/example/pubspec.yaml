@@ -1,0 +1,9 @@
+name: liquid_tab_bar_example
+publish_to: none
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  liquid_tab_bar:
+    path: ..
