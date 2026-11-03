@@ -77,7 +77,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   background-color:var(--navactive);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);
   will-change:transform;transition:transform .32s cubic-bezier(.25,.85,.3,1),background-color .18s,box-shadow .18s}
 .nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:rgba(255,255,255,.27);background-image:none;box-shadow:0 4px 14px rgba(0,0,0,.28)}
-:root[data-theme="light"] .nav.dragging .thumb{background-color:rgba(0,0,0,.13);box-shadow:0 4px 14px rgba(0,0,0,.12)}
+:root[data-theme="light"] .nav.dragging .thumb{background-color:rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(255,255,255,.9) inset,0 3px 12px rgba(0,0,0,.16)}
+:root[data-theme="light"] .nav{background-color:color-mix(in srgb,var(--surface) 66%,transparent)}
 /* scrolled down: transform-only swap bar <-> pill (no layout, no clip-path, so it stays on the GPU) */
 .nav{transform-origin:50% 100%;will-change:transform,opacity;transition:transform .28s cubic-bezier(.215,.61,.355,1),opacity .22s ease-out}
 .nav.min{opacity:0;transform:scale(.7,.85) translateZ(0);pointer-events:none}

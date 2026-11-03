@@ -15,7 +15,7 @@
 .ltb-lens{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:0;border-radius:999px;pointer-events:none;will-change:transform;
   background-color:var(--ltb-lens);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);transition:background-color .18s,box-shadow .18s,opacity .22s}
 .ltb.dragging .ltb-lens{background-color:rgba(255,255,255,.27);background-image:none;box-shadow:0 4px 14px rgba(0,0,0,.28)}
-@media (prefers-color-scheme:light){.ltb.dragging .ltb-lens{background-color:rgba(0,0,0,.13);box-shadow:0 4px 14px rgba(0,0,0,.12)}}
+@media (prefers-color-scheme:light){.ltb.dragging .ltb-lens{background-color:rgba(255,255,255,.85);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 3px 12px rgba(0,0,0,.16)}}
 /* minimized: bar fades out, pill fades in */
 .ltb.min{opacity:0;transform:scale(.7,.85);pointer-events:none}
 .ltb.min .ltb-lens{opacity:0}
