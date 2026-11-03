@@ -129,6 +129,11 @@ CSS variables on `.ltb`: `--ltb-accent`, `--ltb-ink`, `--ltb-bg`, `--ltb-lens`.
 
 ### Glass styles
 
+| `blur` | `liquid` |
+|:---:|:---:|
+| <img src="docs/demo-blur.gif" alt="blur mode" width="260"> | <img src="docs/demo-liquid.gif" alt="liquid mode" width="260"> |
+| Classic frosted glass. Light, used by `auto` on Android and other non-Apple devices. | Clear glass with bright edges. In Chromium it also bends the content behind the bar (shown here); on iPhone it is the same look without the bending. |
+
 | Mode | Look | Cost |
 |---|---|---|
 | `blur` | Classic frosted glass. | Light. Used by `auto` on Android and other non-Apple devices. |
