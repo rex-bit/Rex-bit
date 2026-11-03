@@ -1,6 +1,9 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Liquid tab bar demo</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="dark"><title>Liquid tab bar demo</title>
 <link rel="stylesheet" href="liquid-tab-bar.css">
-<style>body{margin:0;background:#0b0b0d;color:#eee;font:16px/1.6 system-ui,sans-serif}section{min-height:90vh;padding:48px 20px;border-bottom:1px solid #222}h2{margin:0 0 8px}</style></head><body>
+<style>body{margin:0;background:#0b0b0d;color:#eee;font:16px/1.6 system-ui,sans-serif}section{min-height:90vh;padding:48px 20px;border-bottom:1px solid #222}h2{margin:0 0 8px}/* dark-only demo page: keep the bar dark even on light-mode phones */
+.ltb{--ltb-ink:#fff;--ltb-bg:rgba(30,31,35,.5);--ltb-lens:rgba(255,255,255,.17);border-color:rgba(255,255,255,.14)}
+.ltb-mini{background-color:rgba(30,31,35,.5);border-color:rgba(255,255,255,.14)}
+</style></head><body>
 <section id="home"><h2>Home</h2><p>Scroll down: the bar shrinks to a pill. Scroll up or tap the pill to bring it back. Drag across the bar to move the lens.</p></section>
 <section id="search"><h2>Search</h2></section><section id="inbox"><h2>Inbox</h2></section><section id="me"><h2>Me</h2></section>
 <div class="ltb-wrap"><nav class="ltb" aria-label="Sections">
