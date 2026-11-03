@@ -44,7 +44,7 @@
     function dragTick() {
       var x = px - cache.left, tx = x - cache.w / 2;
       if (tx < cache.min) tx = cache.min - rb(cache.min - tx); else if (tx > cache.max) tx = cache.max + rb(tx - cache.max);
-      S.tx = tx; S.tsx = 1.18 + Math.min(.22, Math.abs(vx) / 3500); S.tsy = 1.14;
+      S.tx = tx; S.tsx = 1.1 + Math.min(.1, Math.abs(vx) / 6000); S.tsy = 1.13;
       var bi = 0, bd = 1e9; cache.c.forEach(function (c, i) { var d = Math.abs(c - x); if (d < bd) { bd = d; bi = i; } });
       if (links[bi] !== hot) { if (hot) hot.removeAttribute("data-hot"); hot = links[bi]; hot.setAttribute("data-hot", ""); }
       kick();

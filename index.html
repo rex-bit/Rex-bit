@@ -76,8 +76,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .thumb{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:0;border-radius:999px;pointer-events:none;
   background-color:var(--navactive);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);
   will-change:transform;transition:transform .32s cubic-bezier(.25,.85,.3,1),background-color .18s,box-shadow .18s}
-.nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:rgba(255,255,255,.12);background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.03) 55%,rgba(255,255,255,.12));
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.25),inset 2px 0 3px -1px rgba(120,170,255,.4),inset -2px 0 3px -1px rgba(255,140,90,.4),0 6px 18px rgba(0,0,0,.28)}
+.nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:rgba(255,255,255,.27);background-image:none;box-shadow:0 4px 14px rgba(0,0,0,.28)}
+:root[data-theme="light"] .nav.dragging .thumb{background-color:rgba(0,0,0,.13);box-shadow:0 4px 14px rgba(0,0,0,.12)}
 /* scrolled down: transform-only swap bar <-> pill (no layout, no clip-path, so it stays on the GPU) */
 .nav{transform-origin:50% 100%;will-change:transform,opacity;transition:transform .28s cubic-bezier(.215,.61,.355,1),opacity .22s ease-out}
 .nav.min{opacity:0;transform:scale(.7,.85) translateZ(0);pointer-events:none}
@@ -591,7 +591,7 @@ h1 i{cursor:pointer}
     function dragTick() {
       var x = px - cache.left, tx = x - cache.w / 2;
       if (tx < cache.min) tx = cache.min - rb(cache.min - tx); else if (tx > cache.max) tx = cache.max + rb(tx - cache.max);
-      S.tx = tx; S.tsx = 1.18 + Math.min(.22, Math.abs(vx) / 3500); S.tsy = 1.14;
+      S.tx = tx; S.tsx = 1.1 + Math.min(.1, Math.abs(vx) / 6000); S.tsy = 1.13;
       var bi = 0, bd = 1e9;
       for (var i = 0; i < cache.c.length; i++) { var d = Math.abs(cache.c[i] - x); if (d < bd) { bd = d; bi = i; } }
       var best = links[bi];

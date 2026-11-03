@@ -129,7 +129,7 @@ CSS variables on `.ltb`: `--ltb-accent`, `--ltb-ink`, `--ltb-bg`, `--ltb-lens`.
 ## How it works
 
 - The lens position is a spring (stiffness 380, damping ratio 0.77). Scale uses a softer spring (320, 0.6) so it wobbles slightly.
-- While dragging, the target follows the finger, the lens scales to ~1.18 wide and 1.14 tall, and stretches up to +0.22 with finger speed. Past either end the offset is damped by 0.35 and capped at a fifth of a tab.
+- While dragging, the target follows the finger, the lens turns a flat, lighter gray (like Instagram's iOS 26 bar), grows to ~1.1 wide and 1.13 tall so it overflows the bar slightly, and stretches a little more with finger speed. Past either end the offset is damped by 0.35 and capped at a fifth of a tab.
 - Shrinking is a crossfade plus scale between two layers, about 280 ms with `easeOutCubic`. It deliberately avoids animating width or `clip-path`, which are not GPU-composited and caused stutter on iOS.
 
 ## Limitations

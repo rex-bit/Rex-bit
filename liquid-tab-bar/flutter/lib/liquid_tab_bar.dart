@@ -120,7 +120,7 @@ class _LiquidTabBarState extends State<LiquidTabBar> with TickerProviderStateMix
   void _dragUpdate(DragUpdateDetails d) {
     _raw += d.delta.dx / _tabW;
     _x.value = _rubber(_raw);
-    setState(() => _stretch = (d.delta.dx.abs() * 0.012).clamp(0.0, 0.22));
+    setState(() => _stretch = (d.delta.dx.abs() * 0.006).clamp(0.0, 0.1));
   }
 
   void _dragEnd(DragEndDetails d) {
@@ -235,8 +235,8 @@ class _LiquidTabBarState extends State<LiquidTabBar> with TickerProviderStateMix
                 animation: Listenable.merge([_x, _lens]),
                 builder: (context, _) {
                   final lift = _lens.value.clamp(-0.3, 1.5);
-                  final sx = 1 + 0.18 * lift + _stretch;
-                  final sy = 1 + 0.14 * lift;
+                  final sx = 1 + 0.1 * lift + _stretch;
+                  final sy = 1 + 0.13 * lift;
                   return Positioned(
                     left: _pad + _x.value * _tabW,
                     top: _pad,
@@ -248,7 +248,9 @@ class _LiquidTabBarState extends State<LiquidTabBar> with TickerProviderStateMix
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
-                          color: dark ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.08),
+                          color: dark
+                              ? Colors.white.withOpacity(0.2 + 0.07 * lift.clamp(0.0, 1.0))
+                              : Colors.black.withOpacity(0.08 + 0.05 * lift.clamp(0.0, 1.0)),
                           border: Border.all(color: Colors.white.withOpacity(0.07 + 0.2 * lift.clamp(0.0, 1.0))),
                         ),
                       ),
