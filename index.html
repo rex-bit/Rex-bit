@@ -80,12 +80,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   box-shadow:inset 0 1px 1px rgba(255,255,255,.5),inset 0 -1px 1px rgba(255,255,255,.2),0 4px 14px rgba(0,0,0,.25)}
 /* scrolled down: transform-only swap bar <-> pill (no layout, no clip-path, so it stays on the GPU) */
 .nav{transform-origin:50% 100%;will-change:transform,opacity;transition:transform .42s cubic-bezier(.3,.9,.3,1),opacity .26s ease}
-.nav.min{opacity:0;transform:scale(.42,.7) translateZ(0);pointer-events:none}
+.nav.min{opacity:0;transform:scale(.6,.8) translateZ(0);pointer-events:none}
 .nav a{transition:color .18s}
 .thumb{transition:transform .32s cubic-bezier(.25,.85,.3,1),background-color .18s,box-shadow .18s}
 .mini{position:absolute;left:50%;bottom:0;display:flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 16px;color:var(--accent);font:600 13px/1 var(--body);cursor:pointer;pointer-events:none;opacity:0;white-space:nowrap;-webkit-tap-highlight-color:transparent;will-change:transform,opacity;
-  transform:translateX(-50%) scale(2.2,1.5);transform-origin:50% 100%;border-radius:999px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);background-color:color-mix(in srgb,var(--surface) 50%,transparent);background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 50%,rgba(255,255,255,.04));-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.25);transition:transform .3s ease,opacity .2s ease}
-.mini.on{opacity:1;pointer-events:auto;transform:translateX(-50%) scale(1);transition:transform .55s cubic-bezier(.34,1.3,.5,1),opacity .3s ease .05s}
+  transform:translateX(-50%) scale(1.5,1.2);transform-origin:50% 100%;border-radius:999px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);background-color:color-mix(in srgb,var(--surface) 50%,transparent);background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 50%,rgba(255,255,255,.04));-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.25);transition:transform .3s ease,opacity .18s ease}
+.mini.on{opacity:1;pointer-events:auto;transform:translateX(-50%) scale(1);transition:transform .45s cubic-bezier(.25,.9,.3,1) .12s,opacity .25s ease .12s}
 .mini svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 html.lite .mini{-webkit-backdrop-filter:none;backdrop-filter:none;background-image:none;background-color:color-mix(in srgb,var(--surface) 92%,transparent)}
 /* low-power / Android: no backdrop blur, plain bar */
