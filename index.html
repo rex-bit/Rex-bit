@@ -79,9 +79,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .nav.dragging .thumb{transition:background-color .18s,box-shadow .18s;background-color:color-mix(in srgb,var(--navactive) 75%,transparent);
   box-shadow:inset 0 1px 1px rgba(255,255,255,.5),inset 0 -1px 1px rgba(255,255,255,.2),0 4px 14px rgba(0,0,0,.25)}
 /* scrolled down: the bar morphs into a small pill (clip-path, like Safari's toolbar) */
-.nav{clip-path:inset(-30px -30px -30px -30px round 999px);transition:clip-path .5s cubic-bezier(.32,.72,0,1)}
+.nav{clip-path:inset(-30px -30px -30px -30px round 999px);transition:clip-path .7s cubic-bezier(.22,.8,.2,1)}
 .nav.min{clip-path:inset(var(--ct,0px) var(--cr,0px) 0 var(--cl,0px) round 999px)}
-.nav a{transition:color .18s,opacity .22s}
+.nav a{transition:color .18s,opacity .3s}
 .nav.min a{opacity:0;pointer-events:none}
 .thumb{transition:transform .32s cubic-bezier(.25,.85,.3,1),opacity .22s,background-color .18s,box-shadow .18s}
 .nav.min .thumb{opacity:0}
@@ -532,7 +532,7 @@ h1 i{cursor:pointer}
       var W = nav.offsetWidth, H = nav.offsetHeight, mw = mini.offsetWidth, mh = mini.offsetHeight, L = (W - mw) / 2;
       nav.style.setProperty("--cl", L + "px"); nav.style.setProperty("--cr", L + "px"); nav.style.setProperty("--ct", (H - mh) + "px");
     }
-    var minimized = false, lastY = window.scrollY, quiet = 0, tick = 0;
+    var acc = 0, minimized = false, lastY = window.scrollY, quiet = 0, tick = 0;
     function setMin(v) {
       if (v === minimized) return; minimized = v;
       if (v) clipTo();
@@ -543,8 +543,9 @@ h1 i{cursor:pointer}
       tick = requestAnimationFrame(function () {
         tick = 0; var y = window.scrollY, dy = y - lastY;
         if (nav.classList.contains("dragging") || Date.now() < quiet) { lastY = y; return; }
-        if (y < 80 || dy < -6) setMin(false); else if (dy > 8 && y > 160) setMin(true);
-        if (Math.abs(dy) > 6) lastY = y;
+        lastY = y;
+        if (dy * acc < 0) acc = 0; acc += dy;           // distance scrolled in the current direction
+        if (y < 120 || acc < -60) setMin(false); else if (acc > 160 && y > 300) setMin(true);
       });
     }, { passive: true });
     mini.addEventListener("click", function () { setMin(false); });
