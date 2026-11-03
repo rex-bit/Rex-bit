@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="color-scheme" content="dark light">
-<script>try{if(localStorage.getItem("rb-mode")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
+<script>(function(){var m=matchMedia("(prefers-color-scheme: light)");function a(){if(m.matches)document.documentElement.setAttribute("data-theme","light");else document.documentElement.removeAttribute("data-theme")}a();try{m.addEventListener("change",a)}catch(e){m.addListener(a)}})();</script>
 <meta name="theme-color" content="#050505">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='10' y='44' font-family='monospace' font-size='34' font-weight='700' fill='%23EDEDF0'%3Er%3C/text%3E%3Ccircle cx='46' cy='41' r='5' fill='%23FF7A3D'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -511,10 +511,7 @@ html[data-refract] .top.anim .nav,html[data-refract] .top.anim .mini{-webkit-bac
     </ul>
   </section>
 
-  <div class="foot"><span>© 2026 rex-bit</span><span class="tools"><select class="glasssel" id="glasssel" aria-label="Glass style"><option value="auto">Glass: auto</option><option value="liquid">Glass: liquid</option><option value="blur">Glass: blur</option></select><button type="button" class="modebtn" id="modebtn" aria-label="Switch to light mode" aria-pressed="false">
-  <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 8.5 8.5 0 1020 14.5z" fill="currentColor"/></svg>
-  <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-</button><button type="button" class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="copy small" id="sharebtn">Copy link</button></span></div>
+  <div class="foot"><span>© 2026 rex-bit</span><span class="tools"><select class="glasssel" id="glasssel" aria-label="Glass style"><option value="auto">Glass: auto</option><option value="liquid">Glass: liquid</option><option value="blur">Glass: blur</option></select><button type="button" class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="copy small" id="sharebtn">Copy link</button></span></div>
 </div>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><button type="button" class="x" aria-label="Close">✕</button><button type="button" class="pv" aria-label="Previous">‹</button><img alt=""><button type="button" class="nx" aria-label="Next">›</button><div class="n"></div></div>
 <div class="tip" id="gh-tip" role="tooltip" hidden></div>
@@ -825,21 +822,13 @@ html[data-refract] .top.anim .nav,html[data-refract] .top.anim .mini{-webkit-bac
       }).catch(function () {});
   })();
 
-  /* light / dark switch, remembered on this device */
-  var modeBtn = $("modebtn"), rootEl = document.documentElement;
-  function syncMode() {
-    var light = rootEl.getAttribute("data-theme") === "light";
-    modeBtn.setAttribute("aria-pressed", String(light));
-    modeBtn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
-    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", light ? "#F4F5F8" : "#050505");
-  }
-  modeBtn.addEventListener("click", function () {
-    var light = rootEl.getAttribute("data-theme") === "light";
-    if (light) rootEl.removeAttribute("data-theme"); else rootEl.setAttribute("data-theme", "light");
-    try { localStorage.setItem("rb-mode", light ? "dark" : "light"); } catch (e) {}
-    syncMode();
-  });
-  syncMode();
+  /* theme follows the device (prefers-color-scheme); only the browser colour needs syncing */
+  (function () {
+    var mq = matchMedia("(prefers-color-scheme: light)");
+    function sync() { var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", mq.matches ? "#F4F5F8" : "#050505"); }
+    try { mq.addEventListener("change", sync); } catch (e) { mq.addListener(sync); }
+    sync();
+  })();
 
   /* image lightbox for project screenshots */
   (function () {
