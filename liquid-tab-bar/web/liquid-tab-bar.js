@@ -9,6 +9,8 @@
     var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var lens = document.createElement("span"); lens.className = "ltb-lens"; lens.setAttribute("aria-hidden", "true"); nav.insertBefore(lens, nav.firstChild);
     var mini = document.createElement("button"); mini.type = "button"; mini.className = "ltb-mini"; mini.setAttribute("aria-label", "Show menu"); wrap.appendChild(mini);
+    /* glass style: opts.glass = "auto" (Apple: liquid, others: blur) | "liquid" | "blur" */
+    if (global.LiquidGlass) this.glass = global.LiquidGlass.init({ targets: ".ltb,.ltb-mini", mode: opts.glass || "auto" });
     if (!nav.querySelector('a[aria-current="true"]')) links[0].setAttribute("aria-current", "true");
     function current() { return nav.querySelector('a[aria-current="true"]') || links[0]; }
 

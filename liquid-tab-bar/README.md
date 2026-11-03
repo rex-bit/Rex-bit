@@ -112,6 +112,7 @@ flutter run -d chrome
 | `onChange(index, link)` | – | Called when the selected tab changes. |
 | `preventNavigation` | `false` | Don't follow the link `href` (for SPAs). |
 | `minimizeOnScroll` | `true` | Shrink to a pill when scrolling down. |
+| `glass` | `"auto"` | `"auto"` (Apple devices get liquid, others get blur), `"liquid"` or `"blur"`. Needs `liquid-glass.js`. |
 
 Methods: `select(i)` moves the lens without firing `onChange`; `minimize(bool)` shrinks or expands manually.
 CSS variables on `.ltb`: `--ltb-accent`, `--ltb-ink`, `--ltb-bg`, `--ltb-lens`.
@@ -126,6 +127,15 @@ CSS variables on `.ltb`: `--ltb-accent`, `--ltb-ink`, `--ltb-bg`, `--ltb-lens`.
 | `accent` | theme primary | Colour of the active tab. |
 | `maxWidth` | `460` | Maximum bar width. |
 
+### Glass styles
+
+| Mode | Look | Cost |
+|---|---|---|
+| `blur` | Classic frosted glass. | Light. Used by `auto` on Android and other non-Apple devices. |
+| `liquid` | Clear glass with bright specular edges and inner glow. In **Chromium** it also bends the content behind the bar (SVG displacement map). | Apple devices get the look without the bending, see limitations. |
+
+Load `liquid-glass.js` before `liquid-tab-bar.js`. You can also call `LiquidGlass.set("blur" | "liquid" | "auto")` at any time.
+
 ## How it works
 
 - The lens position is a spring (stiffness 380, damping ratio 0.77). Scale uses a softer spring (320, 0.6) so it wobbles slightly.
@@ -134,6 +144,7 @@ CSS variables on `.ltb`: `--ltb-accent`, `--ltb-ink`, `--ltb-bg`, `--ltb-lens`.
 
 ## Limitations
 
+- **Real refraction needs `backdrop-filter: url(#svg)`, which only Chromium supports.** Safari and iOS ignore it, so on iPhone `liquid` is the clear-glass look without the bending. A WebGL approach works everywhere but needs the page behind the bar as a texture, which is too heavy here.
 - This **imitates** the look. It is not Apple's real Liquid Glass: no refraction and no live lensing of what is behind it. For the real native control inside a Flutter app on iOS 26, use [adaptive_platform_ui](https://github.com/berkaycatak/adaptive_platform_ui).
 - `backdrop-filter` / `BackdropFilter` is heavy on low-end Android. Use a solid translucent colour there.
 - Flutter version untested (see the beta note).
@@ -142,6 +153,7 @@ CSS variables on `.ltb`: `--ltb-accent`, `--ltb-ink`, `--ltb-bg`, `--ltb-lens`.
 
 - [ ] Compile and test the Flutter widget on iOS, Android and web
 - [ ] Optional badge on tabs
+- [ ] Real refraction on iOS (needs a WebGL scene texture)
 - [ ] Haptics on drag (Flutter)
 - [ ] Publish to npm and pub.dev
 

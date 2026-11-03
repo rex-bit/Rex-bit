@@ -25,13 +25,15 @@
 .ltb-mini.on{opacity:1;pointer-events:auto;transform:translateX(-50%) scale(1);transition:transform .28s cubic-bezier(.215,.61,.355,1),opacity .22s ease-out}
 .ltb-mini svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 /* blur is expensive on iOS: dropped only while the swap animates */
-.ltb-wrap.anim .ltb,.ltb-wrap.anim .ltb-mini{-webkit-backdrop-filter:none;backdrop-filter:none}
 @media (prefers-color-scheme:light){.ltb{--ltb-ink:#111;--ltb-bg:rgba(250,250,252,.55);--ltb-lens:rgba(0,0,0,.08);border-color:rgba(0,0,0,.12)}.ltb-mini{background-color:rgba(250,250,252,.6);border-color:rgba(0,0,0,.12)}}
 
-/* liquid glass: clearer blur, bright specular edges, inner glow */
-.ltb,.ltb-mini{background-image:radial-gradient(130% 160% at 12% -10%,rgba(255,255,255,.34),rgba(255,255,255,0) 42%),radial-gradient(130% 160% at 88% 115%,rgba(255,255,255,.2),rgba(255,255,255,0) 42%),linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,0) 55%);
-  -webkit-backdrop-filter:blur(12px) saturate(1.9) brightness(1.08);backdrop-filter:blur(12px) saturate(1.9) brightness(1.08);
+/* liquid mode (set by liquid-glass.js): clear glass, bright specular edges, inner glow. True refraction is added by JS in Chromium. */
+html[data-glass="liquid"] .ltb,html[data-glass="liquid"] .ltb-mini{
+  background-image:radial-gradient(130% 160% at 12% -10%,rgba(255,255,255,.22),rgba(255,255,255,0) 42%),radial-gradient(130% 160% at 88% 115%,rgba(255,255,255,.12),rgba(255,255,255,0) 42%),linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,0) 55%);
+  -webkit-backdrop-filter:blur(4px) saturate(1.9) brightness(1.04);backdrop-filter:blur(4px) saturate(1.9) brightness(1.04);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 1.5px 1.5px 1px -.5px rgba(255,255,255,.55),inset -1.5px -1.5px 1px -.5px rgba(255,255,255,.28),inset 0 0 18px rgba(255,255,255,.07),0 10px 28px rgba(0,0,0,.3)}
-.ltb{--ltb-bg:rgba(44,45,50,.48)}
-.ltb-mini{background-color:rgba(44,45,50,.48)}
-@media (prefers-color-scheme:light){.ltb{--ltb-bg:rgba(250,250,252,.48)}.ltb-mini{background-color:rgba(250,250,252,.5)}}
+html[data-glass="liquid"] .ltb{--ltb-bg:rgba(30,31,35,.5)}
+html[data-glass="liquid"] .ltb-mini{background-color:rgba(30,31,35,.5)}
+@media (prefers-color-scheme:light){html[data-glass="liquid"] .ltb{--ltb-bg:rgba(250,250,252,.4)}html[data-glass="liquid"] .ltb-mini{background-color:rgba(250,250,252,.42)}}
+/* the swap animation drops the blur; keep refraction filters untouched */
+html:not([data-refract]) .ltb-wrap.anim .ltb,html:not([data-refract]) .ltb-wrap.anim .ltb-mini{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
