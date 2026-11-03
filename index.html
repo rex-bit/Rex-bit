@@ -87,6 +87,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   transform:translateX(-50%) scale(1.5,1.2);transform-origin:50% 100%;border-radius:999px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);background-color:color-mix(in srgb,var(--surface) 50%,transparent);background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 50%,rgba(255,255,255,.04));-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.25);transition:transform .3s ease,opacity .18s ease}
 .mini.on{opacity:1;pointer-events:auto;transform:translateX(-50%) scale(1);transition:transform .45s cubic-bezier(.25,.9,.3,1) .12s,opacity .25s ease .12s}
 .mini svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+/* blur is the expensive part on iOS: drop it only while the swap animates */
+.top.anim .nav,.top.anim .mini{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:color-mix(in srgb,var(--surface) 82%,transparent)}
 html.lite .mini{-webkit-backdrop-filter:none;backdrop-filter:none;background-image:none;background-color:color-mix(in srgb,var(--surface) 92%,transparent)}
 /* low-power / Android: no backdrop blur, plain bar */
 html.lite .nav{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:color-mix(in srgb,var(--surface) 92%,transparent);background-image:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 14px rgba(0,0,0,.25)}
@@ -539,10 +541,11 @@ h1 i{cursor:pointer}
     }
     window.__navBusy = function () { return Date.now() < quiet; };
     var mini = document.getElementById("mini");
-    function clipTo() { var c = current(); mini.innerHTML = c.querySelector("svg").outerHTML + "<span>" + c.querySelector("span").textContent + "</span>"; }
+    function clipTo() { var c = current(); if (mini.dataset.k === c.getAttribute("href")) return; mini.dataset.k = c.getAttribute("href"); mini.innerHTML = c.querySelector("svg").outerHTML + "<span>" + c.querySelector("span").textContent + "</span>"; }
     var acc = 0, minimized = false, lastY = window.scrollY, quiet = 0, tick = 0;
     function setMin(v) {
       if (v === minimized) return; minimized = v;
+      var top = nav.parentNode; top.classList.add("anim"); clearTimeout(setMin.t); setMin.t = setTimeout(function () { top.classList.remove("anim"); }, 700);
       if (v) clipTo();
       nav.classList.toggle("min", v); mini.classList.toggle("on", v);
     }
