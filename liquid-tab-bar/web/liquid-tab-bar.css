@@ -1,6 +1,6 @@
 /* Liquid tab bar (BETA) – CSS. Tweak the variables on .ltb */
 .ltb-wrap{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;justify-content:center;padding:0 12px;pointer-events:none}
-.ltb{--ltb-ink:#fff;--ltb-accent:#ff7a3d;--ltb-bg:rgba(30,31,35,.5);--ltb-lens:rgba(255,255,255,.17);
+.ltb{--ltb-ink:#fff;--ltb-accent:#ff7a3d;--ltb-bg:rgba(10,10,12,.58);--ltb-lens:rgba(255,255,255,.17);
   position:relative;display:flex;gap:2px;padding:6px;width:min(100%,460px);pointer-events:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
   border-radius:999px;border:1px solid rgba(255,255,255,.14);background-color:var(--ltb-bg);
   background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 50%,rgba(255,255,255,.04));
@@ -29,11 +29,11 @@
 
 /* liquid mode (set by liquid-glass.js): clear glass, bright specular edges, inner glow. True refraction is added by JS in Chromium. */
 html[data-glass="liquid"] .ltb,html[data-glass="liquid"] .ltb-mini{
-  background-image:radial-gradient(130% 160% at 12% -10%,rgba(255,255,255,.22),rgba(255,255,255,0) 42%),radial-gradient(130% 160% at 88% 115%,rgba(255,255,255,.12),rgba(255,255,255,0) 42%),linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,0) 55%);
-  -webkit-backdrop-filter:blur(4px) saturate(1.9) brightness(1.04);backdrop-filter:blur(4px) saturate(1.9) brightness(1.04);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 1.5px 1.5px 1px -.5px rgba(255,255,255,.55),inset -1.5px -1.5px 1px -.5px rgba(255,255,255,.28),inset 0 0 18px rgba(255,255,255,.07),0 10px 28px rgba(0,0,0,.3)}
-html[data-glass="liquid"] .ltb{--ltb-bg:rgba(30,31,35,.5)}
-html[data-glass="liquid"] .ltb-mini{background-color:rgba(30,31,35,.5)}
+  background-image:radial-gradient(130% 160% at 12% -10%,rgba(255,255,255,.09),rgba(255,255,255,0) 42%),radial-gradient(130% 160% at 88% 115%,rgba(255,255,255,.05),rgba(255,255,255,0) 42%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0) 55%);
+  -webkit-backdrop-filter:blur(4px) saturate(1.6);backdrop-filter:blur(4px) saturate(1.6);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 1.5px 1.5px 1px -.5px rgba(255,255,255,.55),inset -1.5px -1.5px 1px -.5px rgba(255,255,255,.28),inset 0 0 18px rgba(255,255,255,.03),0 10px 28px rgba(0,0,0,.35)}
+html[data-glass="liquid"] .ltb{--ltb-bg:rgba(10,10,12,.58)}
+html[data-glass="liquid"] .ltb-mini{background-color:rgba(10,10,12,.58)}
 @media (prefers-color-scheme:light){html[data-glass="liquid"] .ltb{--ltb-bg:rgba(250,250,252,.4)}html[data-glass="liquid"] .ltb-mini{background-color:rgba(250,250,252,.42)}}
 /* the swap animation drops the blur; keep refraction filters untouched */
 html:not([data-refract]) .ltb-wrap.anim .ltb,html:not([data-refract]) .ltb-wrap.anim .ltb-mini{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}

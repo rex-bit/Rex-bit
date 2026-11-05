@@ -291,10 +291,10 @@ h1 i{cursor:pointer}
 }
 /* glass modes (liquid-glass.js): blur = frosted (default / Android), liquid = clear glass with bright edges (Apple), refraction in Chromium */
 html[data-glass="liquid"] .nav,html[data-glass="liquid"] .mini{
-  background-image:radial-gradient(130% 160% at 12% -10%,rgba(255,255,255,.22),rgba(255,255,255,0) 42%),radial-gradient(130% 160% at 88% 115%,rgba(255,255,255,.12),rgba(255,255,255,0) 42%),linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,0) 55%);
-  -webkit-backdrop-filter:blur(4px) saturate(1.9) brightness(1.04);backdrop-filter:blur(4px) saturate(1.9) brightness(1.04);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 1.5px 1.5px 1px -.5px rgba(255,255,255,.55),inset -1.5px -1.5px 1px -.5px rgba(255,255,255,.28),inset 0 0 18px rgba(255,255,255,.07),0 10px 28px rgba(0,0,0,.3)}
-html[data-glass="liquid"]:not([data-theme="light"]) .nav,html[data-glass="liquid"]:not([data-theme="light"]) .mini{background-color:rgba(30,31,35,.5)}
+  background-image:radial-gradient(130% 160% at 12% -10%,rgba(255,255,255,.09),rgba(255,255,255,0) 42%),radial-gradient(130% 160% at 88% 115%,rgba(255,255,255,.05),rgba(255,255,255,0) 42%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0) 55%);
+  -webkit-backdrop-filter:blur(4px) saturate(1.6);backdrop-filter:blur(4px) saturate(1.6);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 1.5px 1.5px 1px -.5px rgba(255,255,255,.55),inset -1.5px -1.5px 1px -.5px rgba(255,255,255,.28),inset 0 0 18px rgba(255,255,255,.03),0 10px 28px rgba(0,0,0,.35)}
+html[data-glass="liquid"]:not([data-theme="light"]) .nav,html[data-glass="liquid"]:not([data-theme="light"]) .mini{background-color:rgba(10,10,12,.58)}
 html[data-glass="liquid"][data-theme="light"] .nav,html[data-glass="liquid"][data-theme="light"] .mini{background-color:color-mix(in srgb,var(--surface) 42%,transparent)}
 html[data-refract] .top.anim .nav,html[data-refract] .top.anim .mini{-webkit-backdrop-filter:revert-layer;backdrop-filter:revert-layer}
 .glasssel{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;height:38px;padding:0 12px;font:500 12.5px var(--mono);cursor:pointer}

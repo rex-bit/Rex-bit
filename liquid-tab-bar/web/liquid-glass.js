@@ -42,7 +42,7 @@
     var refract = m === "liquid" && isChromium && !html.classList.contains("lite");
     if (refract) html.setAttribute("data-refract", ""); else html.removeAttribute("data-refract");
     targets.forEach(function (t) {
-      var v = refract ? "url(#" + t.id + ") blur(1px) saturate(1.8) brightness(1.04)" : "";
+      var v = refract ? "url(#" + t.id + ") blur(1px) saturate(1.5)" : "";
       t.el.style.backdropFilter = v; t.el.style.webkitBackdropFilter = v;
       if (refract) { t.w = 0; build(t); }
     });
